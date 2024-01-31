@@ -10,7 +10,9 @@ if ((isset($_POST['nome'])) && (isset($_POST['email'])) && (isset($_POST['senha'
     $email = $mysqli->real_escape_string($_POST['email']);
     $senha = $mysqli->real_escape_string($_POST['senha']);
 
-    $sql_code = "INSERT INTO usuarios (nome, email, senha) VALUES ('{$nome}', '{$email}', '{$senha}')";
+    $senha_hash = password_hash($senha, PASSWORD_DEFAULT);
+
+    $sql_code = "INSERT INTO usuarios (nome, email, senha) VALUES ('{$nome}', '{$email}', '{$senha_hash}')";
     $sql_code = $mysqli->query($sql_code) or die($mysqli->error);
 
     if ($sql_code) {
@@ -19,3 +21,4 @@ if ((isset($_POST['nome'])) && (isset($_POST['email'])) && (isset($_POST['senha'
         header("Location: ../views/pages/cadastro.php");
     }
 }
+?>
